@@ -1,15 +1,22 @@
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function MainLayout() {
+  const location = useLocation();
+
+  const hideHeaderFooterRoutes = ['/'];
+
+
+  const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(location.pathname);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow pt-10">
+    <div>
+      {!shouldHideHeaderFooter && <Header />}
+      <main className={`container mx-auto ${shouldHideHeaderFooter ? 'py-0' : 'py-0'}`}>
         <Outlet />
       </main>
-      <Footer />
+      {!shouldHideHeaderFooter && <Footer />}
     </div>
   );
 }
